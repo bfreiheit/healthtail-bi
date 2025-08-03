@@ -1,0 +1,23 @@
+name: 'healthtail'
+version: '1.0.0'
+config-version: 2
+
+profile: 'healthtail'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+
+models:
+  healthtail:
+    staging:
+      +schema: intermediate
+      +materialized: view
+    marts:
+      +schema: marts
+      +materialized: table
+
+seeds:
+  healthtail:
+    +schema: raw # only raw, because in profiles.yml is dataset: healthtail -> healthtail_raw
+    +quote_columns: false
