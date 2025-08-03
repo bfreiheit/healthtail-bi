@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: raw                         # internal name of source
+    database: dbt-bigquery-10         # GCP project name
+    schema: healthtail_raw            # BigQuery dataset name
+    tables:
+      - name: healthtail_reg_cards
+      - name: invoices
+      - name: visits
