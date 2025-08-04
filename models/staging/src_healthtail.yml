@@ -1,3 +1,4 @@
+# this file needs to live in staging folder, where models reference sources
 version: 2
 
 sources:
