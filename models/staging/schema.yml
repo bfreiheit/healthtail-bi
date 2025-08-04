@@ -1,0 +1,132 @@
+version: 2
+
+models:
+  - name: stg_reg_cards
+    description: Registration cards from a veterinary clinic about pets and their owners
+    columns:
+      - name: patient_id
+        description: Primary key
+        tests:
+          - unique
+          - not_null
+      - name: owner_id
+        description: Unique identifier for the pet's owner (INTEGER)
+        tests:
+          - unique
+          - not_null
+      - name: owner_name
+        description: Name of the pet owner
+        tests:
+          - not_null
+      - name: pet_type
+        description: Type of pet (e.g. Dog, Cat)
+        tests:
+          - not_null
+      - name: breed
+        description: Breed of the pet. If not known, marked as "Unknown" or "No Breed."
+        tests:
+          - not_null
+      - name: patient_name
+        description: Name of the pet
+        tests:
+          - not_null
+      - name: gender
+        description: Gender of pets
+        tests:
+          - accepted_values:
+              values: ['Male', 'Female']
+      - name: patient_age
+        description: Age of the pet in years (INTEGER)
+        tests:
+          - not_null
+      - name: date_registration
+        description: Date when the pet was registered at the clinic (DATE)
+        tests:
+          - not_null
+      - name: owner_phone
+        description: >
+          Contact phone number of the pet's owner, including the country code (STRING)
+        tests:
+          - not_null   
+
+  - name: stg_visits
+    description: Staging model for pet visit data
+    columns:
+      - name: visit_id
+        description: >
+          Unique identifier for the specific visit, combining patient ID and a unique suffix
+        tests:
+        - unique
+        - not_null
+      - name: patient_id
+        description: Unique identifier for the pet
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_reg_cards')
+              field: patient_id
+      - name: visit_datetime
+        description: Date and time of the visit. (DATETIME)
+        tests:
+          - not_null
+      - name: doctor
+        description: Name of the doctor who attended the pet during the visit.
+        tests:
+          - not_null
+      - name: diagnosis
+        description: Diagnosis given to the pet during the visit
+        tests:
+          - not_null
+      - name: med_prescribed
+        description: Name of the medication presribed during the visit
+        tests:
+          - not_null
+      - name: med_dosage
+        description: >
+          Dosage of the prescribed medication (in applicable units).
+          In this dataset its equal to the share of full package (FLOAT)
+        tests:
+          - not_null
+      - name: med_cost
+        description: Cost of the prescribed medication for the visit (FLOAT)
+        tests:
+          - not_null
+
+  - name: stg_invoices
+    description: Staging model for pet invoice data
+    columns:
+      - name: month_invoice
+        description: >
+          The month and year of the invoice, indicating when the medication was procured (DATE)
+        tests:
+          - not_null
+      - name: invoice_id
+        description: A unique identifier for each invoice, ensuring each transaction can be distinctly tracked.
+        tests:
+          - not_null
+      - name: supplier
+        description: The name of the supplier providing the medications
+        tests:
+          - not_null
+      - name: med_name
+        description: The name of the medication or product purchased
+        tests:
+          - not_null
+      - name: packs
+        description: The number of packs of the medication purchased in the transcation. (FLOAT)
+        tests:
+          - not_null
+      - name: price 
+        description: The price of a single unit or pack of the medication in the invoice. (FLOAT)
+        tests:
+          - not_null
+      - name: total_price
+        description: Thr total cost of the transaction (calculated as packs * price)
+        tests:
+          - not_null
+        
+
+
+
+
+
