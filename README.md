@@ -32,7 +32,8 @@ source .venv/bin/activate  # macOS/Linux
 
 # Install dependencies
 pip install dbt-bigquery
-pip install sqlfluff==0.4.0a1
+pip install sqlfluff
+pip install sqlfluff-templater-dbt
 
 # Verify installation
 dbt --version
@@ -57,9 +58,29 @@ dbt run -s models/staging/stg_visits.sql
 dbt run -s models/staging/stg_invoices.sql
 dbt run -s models/marts/med_audits.sql
 
+# Run all tests for the project
+dbt test
+
+# Compile models (preview final SQL after dbt/Jinja rendering)
+dbt compile
+
+# Compile only staging models
+dbt compile --select staging
+
+# Lint compiled staging models with SQLFluff
+sqlfluff lint target/compiled/healthtail/models/staging/
+
+# Build all models (run + test)
+dbt build
+
 # Generate and serve documentation
 dbt docs generate
 dbt docs serve
+
+# Code quality checks
+sqlfluff lint models/
+sqlfluff fix models/
+
 ```
 
 
