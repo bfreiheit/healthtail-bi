@@ -2,55 +2,64 @@
 
 **Clinical pet health analytics with dbt & BigQuery**  
 
-Dieses Projekt enthält dbt-Modelle, Seeds und Tests für die Analyse von klinischen Tiergesundheitsdaten.  
-Es nutzt **Google BigQuery** als Data Warehouse und **dbt** für Datenmodellierung, Dokumentation und Transformation.
+This project contains dbt models, seeds, and tests for analyzing clinical pet health data.
+It uses Google BigQuery as the data warehouse and dbt for data modeling, documentation, and transformation.
 
-📊 **Dashboard in Google Looker Studio:**  
+**Dashboard in Google Looker Studio:**  
 [Healthtail BI Report](https://lookerstudio.google.com/reporting/831d7db3-8076-4a5d-81f5-d7d51efd741e)
 
 ---
 
-## 🚀 Voraussetzungen
+## Requirements
 
 - Python 3.9+  
-- Zugriff auf Google BigQuery  
-- dbt-BigQuery-Adapter  
-- Git  
+- Access to Google BigQuery
+- dbt BigQuery adapter
 
 ---
 
-## 📦 Installation & Setup
+## Installation & Setup
 
 ```bash
-# Repository klonen
+# Clone the repository
 git clone git@github.com:bfreiheit/healthtail-bi.git
 cd healthtail-bi/
 
-# Virtuelle Umgebung erstellen & aktivieren
+# Create and activate a virtual environment
 python3 -m venv .venv
 source .venv/bin/activate  # macOS/Linux
-# oder: .venv\Scripts\activate  # Windows
+# or: .venv\Scripts\activate  # Windows
 
-# Abhängigkeiten installieren
+# Install dependencies
 pip install dbt-bigquery
 pip install sqlfluff==0.4.0a1
 
-# Installation prüfen
+# Verify installation
 dbt --version
 
-# dbt Projekt initialisieren (falls neu)
+# Initialize the dbt project (if not already initialized)
 dbt init healthtail
 
-# Verbindung testen
+# Test the connection
 dbt debug
 
-# Projektverzeichnisse anlegen
+# Create project directories
 mkdir seeds models tests
 mkdir models/staging models/marts
 touch dbt_project.yml
 
-# Daten laden
+# Load seed data
 dbt seed
+
+# Run specific models
+dbt run -s models/staging/stg_reg_cards.sql
+dbt run -s models/staging/stg_visits.sql
+dbt run -s models/staging/stg_invoices.sql
+dbt run -s models/marts/med_audits.sql
+
+# Generate and serve documentation
+dbt docs generate
+dbt docs serve
 ```
 
 
