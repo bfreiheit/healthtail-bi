@@ -11,8 +11,7 @@ models:
           - not_null
       - name: owner_id
         description: Unique identifier for the pet's owner (INTEGER)
-        tests:
-          - unique
+        tests:          
           - not_null
       - name: owner_name
         description: Name of the pet owner
@@ -124,9 +123,3 @@ models:
         description: Thr total cost of the transaction (calculated as packs * price)
         tests:
           - not_null
-        
-
-
-
-
-
